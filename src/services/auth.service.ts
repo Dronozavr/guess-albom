@@ -26,6 +26,8 @@ class AuthService {
       throw new Error('Token in not valid');
     }
   }
+
+  // TODO: Add decoding mechanim
 }
 
 export default AuthService;

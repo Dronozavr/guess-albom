@@ -13,6 +13,8 @@ class IndexRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.indexController.index);
+    this.router.get('/test', this.indexController.generateTest);
+    this.router.get(`/albums/:id`, this.indexController.getAlbums);
   }
 }
 

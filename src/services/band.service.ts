@@ -14,6 +14,12 @@ class BandService {
     return bands;
   }
 
+  public async findBandById(id: string): Promise<Band> {
+    const band: Band = await this.bands.findOne({ _id: id });
+
+    return band;
+  }
+
   //   public async findUserById(userId: string): Promise<User> {
   //     if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
 
