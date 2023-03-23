@@ -4,8 +4,8 @@ import { TokenData } from '@interfaces/auth.interface';
 import { AssessmentState } from '@/interfaces/assessmentState.interface';
 import userModel from '@models/users.model';
 
-class AuthService {
-  public users = userModel;
+class TokenService {
+  // public users = userModel;
 
   public createToken(questinaryState: AssessmentState): TokenData {
     const dataStoredInToken: AssessmentState = { ...questinaryState };
@@ -30,4 +30,4 @@ class AuthService {
   // TODO: Add decoding mechanim
 }
 
-export default AuthService;
+export default TokenService;
