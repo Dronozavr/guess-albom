@@ -1,4 +1,4 @@
 export class AssessmentDto {
-  public testId: string;
+  public albumName: string;
   public attemptNumber: number;
 }

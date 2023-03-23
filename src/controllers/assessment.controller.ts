@@ -6,6 +6,7 @@ import albumService from '@/services/album.service';
 import tokenService from '@/services/token.service';
 import { Assessment } from '@/interfaces/assessment.interface';
 import { AssessmentDto } from '@/dtos/assessment.dto';
+import { TokenDto } from '@/dtos/token.dto';
 
 class AssessmentController {
   public bandService = new bandService();
@@ -21,18 +22,20 @@ class AssessmentController {
       const assessment = await this.assessmentService.createAssessment(choosedBand, albums);
 
       // Generate AssessmentDto
-      const dto = this.convertAssessmentToDto(assessment);
-      const tokenData = await this.tokenService.createToken(dto);
+      const tokenDto = this.convertAssessmentToDto(assessment);
+      const tokenData = await this.tokenService.createToken(tokenDto);
       const cookie = await this.tokenService.createCookie(tokenData);
       res.setHeader('Set-Cookie', [cookie]);
 
-      res.status(200).json({ questionAlbum: assessment.albums[dto.attemptNumber] });
+      // Generate AssessmentDto
+      const assessmentDto = { questionAlbum: assessment.albums[tokenDto.attemptNumber] };
+      res.status(200).json(assessmentDto);
     } catch (error) {
       next(error);
     }
   };
 
-  public convertAssessmentToDto(assessment: Assessment): AssessmentDto {
+  public convertAssessmentToDto(assessment: Assessment): TokenDto {
     return { testId: assessment.id, attemptNumber: 0 };
   }
 }
