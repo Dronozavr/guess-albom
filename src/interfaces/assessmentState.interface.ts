@@ -1,4 +1,4 @@
-export interface QuestionaryState {
+export interface AssessmentState {
   testId: string;
   attemptsCount: number;
 }

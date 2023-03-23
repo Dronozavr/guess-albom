@@ -1,14 +1,14 @@
 import { sign, verify } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
 import { TokenData } from '@interfaces/auth.interface';
-import { QuestionaryState } from '@interfaces/questionaryState.interface';
+import { AssessmentState } from '@/interfaces/assessmentState.interface';
 import userModel from '@models/users.model';
 
 class AuthService {
   public users = userModel;
 
-  public createToken(questinaryState: QuestionaryState): TokenData {
-    const dataStoredInToken: QuestionaryState = { ...questinaryState };
+  public createToken(questinaryState: AssessmentState): TokenData {
+    const dataStoredInToken: AssessmentState = { ...questinaryState };
     const secretKey: string = SECRET_KEY;
     const expiresIn: number = 60 * 60;
 
