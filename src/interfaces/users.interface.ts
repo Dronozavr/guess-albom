@@ -1,4 +1,4 @@
 export interface User {
   name: string;
-  points: string;
+  points: number;
 }

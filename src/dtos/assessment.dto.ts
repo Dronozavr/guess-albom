@@ -1,4 +1,6 @@
+import { Album } from '@/interfaces/album.interface';
+
 export class AssessmentDto {
-  public albumName: string;
-  public attemptNumber: number;
+  public questionAlbum: Album;
+  public isSuccess: boolean;
 }

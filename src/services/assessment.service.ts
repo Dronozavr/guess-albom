@@ -17,6 +17,18 @@ class AssessmentService {
 
     return assessment;
   }
+
+  public async findById(id: string): Promise<Assessment> {
+    const assessment: Assessment = await this.assessment.findById(id);
+
+    return assessment;
+  }
+
+  public async removeById(id: string): Promise<Assessment> {
+    const assessment: Assessment = await this.assessment.findOneAndRemove({ _id: id });
+
+    return assessment;
+  }
 }
 
 export default AssessmentService;

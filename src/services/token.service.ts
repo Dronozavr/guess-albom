@@ -1,4 +1,4 @@
-import { sign, verify } from 'jsonwebtoken';
+import { sign, verify, decode } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
 import { TokenData } from '@interfaces/auth.interface';
 // import userModel from '@models/users.model';
@@ -16,7 +16,7 @@ class TokenService {
   }
 
   public createCookie(tokenData: TokenData): string {
-    return `X-questionary-state=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+    return `X-Assessment=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
   }
 
   public async verifyToken(token: string) {
@@ -25,6 +25,10 @@ class TokenService {
     } catch (error) {
       throw new Error('Token in not valid');
     }
+  }
+
+  public decodeToken(token: string): TokenDto {
+    return decode(token, { json: true }) as TokenDto;
   }
 
   // TODO: Add decoding mechanim

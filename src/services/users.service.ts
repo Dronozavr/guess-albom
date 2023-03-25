@@ -42,19 +42,15 @@ class UserService {
   public async updateUser(userName: string, userData: CreateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    // if (userData.name) {
-    //   const findUser: User = await this.users.findOne({ name: userData.name });
-    //   if (findUser && findUser.name != userName) throw new HttpException(409, `This email ${userData.email} already exists`);
-    // }
-
-    // if (userData.password) {
-    //   const hashedPassword = await hash(userData.password, 10);
-    //   userData = { ...userData, password: hashedPassword };
-    // }
-
     const updateUserByName: User = await this.users.findOneAndUpdate({ name: userName }, { userData });
 
     return updateUserByName;
+  }
+
+  public async getTopUsers(userAmount = 3): Promise<User[]> {
+    const topUsers: User[] = await this.users.find().sort({ points: -1 }).limit(userAmount).select('-_id');
+
+    return topUsers;
   }
 }
 

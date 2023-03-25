@@ -17,7 +17,7 @@ class AlbumService {
   }
 
   public async saveAlbums(albums: Pick<Album, 'name'>[], bandId: string): Promise<Album[]> {
-    const albumsWithBand = albums.map(a => ({ ...a, bandId }));
+    const albumsWithBand = albums.map(alb => ({ ...alb, bandId }));
     const albumsToReturn = await this.albums.insertMany(albumsWithBand);
 
     return albumsToReturn;
