@@ -1,4 +1,4 @@
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateUser } from '@/interfaces/create-user.interface';
 import { HttpException } from '@exceptions/HttpException';
 import { User } from '@interfaces/users.interface';
 import userModel from '@models/users.model';
@@ -21,7 +21,7 @@ class UserService {
     return findUser;
   }
 
-  public async createUser(userData: CreateUserDto): Promise<User> {
+  public async createUser(userData: CreateUser): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
     const findUser: User = await this.users.findOne({ name: userData.name });
@@ -36,7 +36,7 @@ class UserService {
     }
   }
 
-  public async updateUser(userName: string, userData: CreateUserDto): Promise<User> {
+  public async updateUser(userName: string, userData: CreateUser): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
     const updateUserByName: User = await this.users.findOneAndUpdate({ name: userName }, { ...userData });

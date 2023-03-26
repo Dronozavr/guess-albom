@@ -7,16 +7,19 @@ import { TokenDto } from '@/dtos/token.dto';
 class TokenService {
   // public users = userModel;
 
-  public createToken(tokenDto: TokenDto): TokenData {
-    const dataStoredInToken: TokenDto = { ...tokenDto };
+  public createToken(tokenDto: TokenDto | { id: string }): TokenData {
     const secretKey: string = SECRET_KEY;
     const expiresIn: number = 60 * 60;
 
-    return { expiresIn, token: sign(dataStoredInToken, secretKey, { expiresIn }) };
+    return { expiresIn, token: sign(tokenDto, secretKey, { expiresIn }) };
   }
 
-  public createCookie(tokenData: TokenData): string {
-    return `X-Assessment=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+  public createAssessmentCookie(tokenData: TokenData): string {
+    return `X-Assessment=${tokenData.token}; Max-Age=${tokenData.expiresIn};`;
+  }
+
+  public createAccessCookie(tokenData: TokenData): string {
+    return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
   }
 
   public async verifyToken(token: string) {
@@ -30,8 +33,6 @@ class TokenService {
   public decodeToken(token: string): TokenDto {
     return decode(token, { json: true }) as TokenDto;
   }
-
-  // TODO: Add decoding mechanim
 }
 
 export default TokenService;

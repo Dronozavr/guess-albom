@@ -6,7 +6,7 @@ import tokenService from '@/services/token.service';
 import { Assessment } from '@/interfaces/assessment.interface';
 import { TokenDto } from '@/dtos/token.dto';
 import { Album } from '@/interfaces/album.interface';
-import { AssessmentDto } from '@/dtos/assessment.dto';
+import { AssessmentDto } from '@/dtos/assessment.response.dto';
 import fileService from '@/services/file.service';
 
 class AssessmentController {
@@ -28,8 +28,9 @@ class AssessmentController {
       const assessment = await this.assessmentService.createAssessment(choosedBand, albums);
 
       // Generate tokenDto
-      const cookie = await this.generateCookie(assessment);
-      res.setHeader('Set-Cookie', [cookie]);
+      const assessmentCookie = await this.generateAssessmentCookie(assessment);
+      const accessCookie = await this.generateAccessCookie(assessment._id);
+      res.setHeader('Set-Cookie', [assessmentCookie, accessCookie]);
 
       // Generate AssessmentDto
       const assessmentDto = this.generateAssessmentDto(assessment.albums[0]);
@@ -47,21 +48,19 @@ class AssessmentController {
       let assessmentDto;
       // Check if test has passed
       if (assessment.bandId === req.body.bandId) {
-        // End with correct screen
-        cookie = await this.generateCookie(assessment, 5, true);
+        // User passed assessment. Finish.
+        cookie = await this.generateAssessmentCookie(assessment, 5, true);
         assessmentDto = this.generateAssessmentDto(null, true);
-        // Clean assessment
-        // await this.assessmentService.removeById(tokenData.testId);
       } else if (tokenData.attemptNumber === 4) {
-        // End with failure screen
-        cookie = await this.generateCookie(assessment, 5, false);
+        // User failed assessment. Finish.
+        cookie = await this.generateAssessmentCookie(assessment, 5, false);
         assessmentDto = this.generateAssessmentDto(null, false);
         // Clean assessment
         await this.assessmentService.removeById(tokenData.testId);
       } else {
-        // Next attempt
+        // User failed assessment Next attempt
         const attemptNumber = tokenData.attemptNumber + 1;
-        cookie = await this.generateCookie(assessment, attemptNumber);
+        cookie = await this.generateAssessmentCookie(assessment, attemptNumber);
         assessmentDto = this.generateAssessmentDto(assessment.albums[attemptNumber], false);
       }
 
@@ -80,10 +79,17 @@ class AssessmentController {
     return { questionAlbum: album, isSuccess };
   }
 
-  public async generateCookie(assessment: Assessment, attemptNumber = 0, isSuccess = false): Promise<string> {
+  public async generateAssessmentCookie(assessment: Assessment, attemptNumber = 0, isSuccess = false): Promise<string> {
     const tokenDto = { testId: assessment._id, attemptNumber, isSuccess };
     const tokenData = await this.tokenService.createToken(tokenDto);
-    const cookie = await this.tokenService.createCookie(tokenData);
+    const cookie = await this.tokenService.createAssessmentCookie(tokenData);
+
+    return cookie;
+  }
+
+  public async generateAccessCookie(id: string): Promise<string> {
+    const tokenData = await this.tokenService.createToken({ id });
+    const cookie = await this.tokenService.createAccessCookie(tokenData);
 
     return cookie;
   }
