@@ -14,12 +14,9 @@ class UserService {
 
   public async findUserByName(userName: string): Promise<User> {
     // TODO: ??? next line
-    if (isEmpty(userName)) throw new HttpException(400, 'UserId is empty');
+    // if (isEmpty(userName)) throw new HttpException(400, 'UserId is empty');
 
     const findUser: User = await this.users.findOne({ name: userName });
-
-    // TODO: should be deleted
-    if (!findUser) throw new HttpException(409, "User doesn't exist");
 
     return findUser;
   }
@@ -42,7 +39,7 @@ class UserService {
   public async updateUser(userName: string, userData: CreateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    const updateUserByName: User = await this.users.findOneAndUpdate({ name: userName }, { userData });
+    const updateUserByName: User = await this.users.findOneAndUpdate({ name: userName }, { ...userData });
 
     return updateUserByName;
   }

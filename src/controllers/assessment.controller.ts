@@ -5,21 +5,26 @@ import albumService from '@/services/album.service';
 import tokenService from '@/services/token.service';
 import { Assessment } from '@/interfaces/assessment.interface';
 import { TokenDto } from '@/dtos/token.dto';
-import { UserAnswerDto } from '@/dtos/user-answer.dto';
 import { Album } from '@/interfaces/album.interface';
 import { AssessmentDto } from '@/dtos/assessment.dto';
+import fileService from '@/services/file.service';
 
 class AssessmentController {
   public bandService = new bandService();
   public assessmentService = new assessmentService();
   public albumService = new albumService();
   public tokenService = new tokenService();
+  public fileService = new fileService();
 
   public generateAssessment = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const bands = await this.bandService.findAllBands();
       const choosedBand = bands[(Math.random() * 9).toFixed()];
-      const albums = await this.albumService.getAlbums(choosedBand);
+      const { albums, created } = await this.albumService.getAlbums(choosedBand);
+
+      if (created) {
+        await this.fileService.recordAlbums(albums, choosedBand.name);
+      }
       const assessment = await this.assessmentService.createAssessment(choosedBand, albums);
 
       // Generate tokenDto
@@ -46,7 +51,7 @@ class AssessmentController {
         cookie = await this.generateCookie(assessment, 5, true);
         assessmentDto = this.generateAssessmentDto(null, true);
         // Clean assessment
-        await this.assessmentService.removeById(tokenData.testId);
+        // await this.assessmentService.removeById(tokenData.testId);
       } else if (tokenData.attemptNumber === 4) {
         // End with failure screen
         cookie = await this.generateCookie(assessment, 5, false);
@@ -79,6 +84,7 @@ class AssessmentController {
     const tokenDto = { testId: assessment._id, attemptNumber, isSuccess };
     const tokenData = await this.tokenService.createToken(tokenDto);
     const cookie = await this.tokenService.createCookie(tokenData);
+
     return cookie;
   }
 }

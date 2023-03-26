@@ -14,7 +14,7 @@ class IndexController {
     }
   };
 
-  public generateTest = (req: Request, res: Response, next: NextFunction) => {
+  public getTop = (req: Request, res: Response, next: NextFunction) => {
     try {
       res.sendStatus(200);
     } catch (error) {

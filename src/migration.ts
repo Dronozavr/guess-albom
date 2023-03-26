@@ -2,7 +2,7 @@ import { dbConnection } from '@/databases';
 import { connect, connection } from 'mongoose';
 export const bands = [
   {
-    name: 'The Beatles',
+    name: 'Hang Massive',
   },
   {
     name: 'Queen',
@@ -14,10 +14,10 @@ export const bands = [
     name: 'Nirvana',
   },
   {
-    name: 'The Who',
+    name: 'G Unit',
   },
   {
-    name: 'Led Zeppelin',
+    name: 'Asher',
   },
   {
     name: 'The Beach Boys',
@@ -26,10 +26,10 @@ export const bands = [
     name: 'Pink Floyd',
   },
   {
-    name: 'The Rolling Stones',
+    name: 'Snoop Dog',
   },
   {
-    name: 'The Doors',
+    name: 'Obie Trice',
   },
 ];
 

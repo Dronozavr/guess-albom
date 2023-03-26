@@ -1,9 +1,7 @@
-// import { HttpException } from '@exceptions/HttpException';
 import albumModel from '@models/album.model';
 import { Album, ExternalAlbum, ExternalAlbumsResult } from '@/interfaces/album.interface';
 import { fetch, parametrizeString } from '@/utils/util';
 import { Band } from '@/interfaces/band.interface';
-// const crypto = require('crypto');
 
 const getITunesURL = (nameForQuery: string) => `https://itunes.apple.com/search?entity=album&limit=5&term=${nameForQuery}&attribute=artistTerm`;
 
@@ -36,15 +34,17 @@ class AlbumService {
   }
 
   // TODO: Band shoud be avoided due to coupling
-  public async getAlbums(band: Band): Promise<Album[]> {
+  public async getAlbums(band: Band): Promise<{ albums: Album[]; created: boolean }> {
     let albums = await this.findAlbumsByBand(band._id);
+    let created = false;
 
     if (!albums.length) {
       const externalAlbums = await this.getAlbumsFromExternalSource(band.name);
       albums = await this.saveAlbums(this.convertAlbums(externalAlbums), band._id);
+      created = true;
     }
 
-    return albums;
+    return { albums, created };
   }
 }
 
