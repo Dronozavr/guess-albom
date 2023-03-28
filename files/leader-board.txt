@@ -1,5 +1,3 @@
 
  Leaders Board 
-1. nec - 35; 
-2. kuf - 30; 
-3. oleg - 10; 
+1. nec - 5; 
