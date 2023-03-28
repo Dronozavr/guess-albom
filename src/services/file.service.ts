@@ -15,7 +15,7 @@ class FileService {
     return result;
   }
 
-  public async recortTopList(leaders: User[]): Promise<any> {
+  public async recordTopList(leaders: User[]): Promise<any> {
     const data = '\n Leaders Board \n' + leaders.map((usr, i) => `${i + 1}. ${usr.name} - ${usr.points}; \n`).join('');
     const result = await fs.writeFile('./leader-board.txt', data, err => {
       if (err) {

@@ -5,8 +5,8 @@ import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import { connect, set } from 'mongoose';
-// import swaggerJSDoc from 'swagger-jsdoc';
-// import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import { NODE_ENV, PORT, ORIGIN, CREDENTIALS } from '@config';
 import { dbConnection } from '@databases';
 import { Routes } from '@interfaces/routes.interface';
@@ -26,7 +26,7 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    // this.initializeSwagger();
+    this.initializeSwagger();
     this.initializeErrorHandling();
   }
 
@@ -64,7 +64,7 @@ class App {
 
   private initializeRoutes(routes: Routes[]) {
     routes.forEach(route => {
-      this.app.use('/app', route.router);
+      this.app.use('/api', route.router);
     });
 
     // Static
@@ -73,21 +73,21 @@ class App {
     });
   }
 
-  // private initializeSwagger() {
-  //   const options = {
-  //     swaggerDefinition: {
-  //       info: {
-  //         title: 'REST API',
-  //         version: '1.0.0',
-  //         description: 'Example docs',
-  //       },
-  //     },
-  //     apis: ['swagger.yaml'],
-  //   };
+  private initializeSwagger() {
+    const options = {
+      swaggerDefinition: {
+        info: {
+          title: 'REST API',
+          version: '1.0.0',
+          description: 'Guess album docs',
+        },
+      },
+      apis: ['swagger.yaml'],
+    };
 
-  //   const specs = swaggerJSDoc(options);
-  //   this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-  // }
+    const specs = swaggerJSDoc(options);
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+  }
 
   private initializeErrorHandling() {
     this.app.use(errorMiddleware);

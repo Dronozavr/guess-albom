@@ -14,7 +14,7 @@ class UserRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.post(`/`, checkTokenMiddleware, checkSuccessMiddleware, this.userController.addPoints);
+    this.router.post(this.path, checkTokenMiddleware, checkSuccessMiddleware, this.userController.addPoints);
     // Redundant route
     this.router.get(`/top-list`, this.userController.getTop);
   }

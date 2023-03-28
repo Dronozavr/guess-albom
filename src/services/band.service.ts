@@ -6,6 +6,7 @@ class BandService {
 
   public async findAllBands(): Promise<Band[]> {
     const bands: Band[] = await this.bands.find();
+
     return bands;
   }
 

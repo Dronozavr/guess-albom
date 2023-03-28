@@ -28,8 +28,9 @@ class UserController {
       const topUsers = await this.userService.getTopUsers();
 
       if (topUsers.some(usr => usr.name === req.body.userName)) {
-        await this.fileService.recortTopList(topUsers);
+        await this.fileService.recordTopList(topUsers);
       }
+      res.clearCookie('X-Assessment');
 
       res.status(200).json({ data: topUsers });
     } catch (error) {

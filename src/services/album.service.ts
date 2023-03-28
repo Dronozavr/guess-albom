@@ -3,6 +3,7 @@ import { Album, ExternalAlbum, ExternalAlbumsResult } from '@/interfaces/album.i
 import { fetch, parametrizeString } from '@/utils/util';
 import { Band } from '@/interfaces/band.interface';
 
+// TODO: Would be nice to movi this usr to env vars
 const getITunesURL = (nameForQuery: string) => `https://itunes.apple.com/search?entity=album&limit=5&term=${nameForQuery}&attribute=artistTerm`;
 
 class AlbumService {
@@ -33,7 +34,6 @@ class AlbumService {
     return externalAlbums.map(ea => ({ name: ea.collectionName }));
   }
 
-  // TODO: Band shoud be avoided due to coupling
   public async getAlbums(band: Band): Promise<{ albums: Album[]; created: boolean }> {
     let albums = await this.findAlbumsByBand(band._id);
     let created = false;

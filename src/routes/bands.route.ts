@@ -13,8 +13,6 @@ class BandsRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.bandsController.getBands);
-    // This route is redundant
-    // this.router.get(`/:id/alboms`, this.indexController.getAlbums);
   }
 }
 

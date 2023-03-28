@@ -1,6 +1,6 @@
 import { Album } from '@/interfaces/album.interface';
 
-export class AssessmentDto {
+export class AssessmentResponseDto {
   public questionAlbum: Album;
-  public isSuccess: boolean;
+  public attemptNumber: number;
 }

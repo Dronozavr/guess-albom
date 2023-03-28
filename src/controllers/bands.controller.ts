@@ -5,11 +5,11 @@ import bandService from '@services/band.service';
 class BandsController {
   public bandService = new bandService();
 
-  public getBands = async (req: Request, res: Response, next: NextFunction) => {
+  public getBands = async (_: Request, res: Response, next: NextFunction) => {
     try {
-      const findAllBands: Band[] = await this.bandService.findAllBands();
+      const allBands: Band[] = await this.bandService.findAllBands();
 
-      res.status(200).json({ data: findAllBands });
+      res.status(200).json({ data: allBands });
     } catch (error) {
       next(error);
     }
