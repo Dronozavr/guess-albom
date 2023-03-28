@@ -13,4 +13,4 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /Users/akifi/try/mwdn-test/guess-albom/storage/mongo
+      - $PWD/mongo
