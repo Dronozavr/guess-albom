@@ -10,14 +10,14 @@ class FileService {
   public async recordAlbums(albums: Album[], bandName: string): Promise<any> {
     // const header = '\n New albums \n';
     const data = `\n ${bandName} \n` + albums.map((usr, i) => `${i + 1}. ${usr.name}; \n`).join('');
-    const result = await promisify(fs.writeFile)('./albums.txt', data, { flag: 'a' });
+    const result = await promisify(fs.writeFile)('./files/albums.txt', data, { flag: 'a' });
 
     return result;
   }
 
   public async recordTopList(leaders: User[]): Promise<any> {
     const data = '\n Leaders Board \n' + leaders.map((usr, i) => `${i + 1}. ${usr.name} - ${usr.points}; \n`).join('');
-    const result = await fs.writeFile('./leader-board.txt', data, err => {
+    const result = await fs.writeFile('./files/leader-board.txt', data, err => {
       if (err) {
         throw new Error();
       }
