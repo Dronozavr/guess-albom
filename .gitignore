@@ -16,4 +16,4 @@ node_modules/
 .eslintcache
 
 # generated files
-files/
+files/*.txt
