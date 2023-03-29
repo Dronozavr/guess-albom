@@ -1,4 +1,4 @@
-## Prerequisite:
+## Prerequisites:
 1. Make sure you have `node.js` installed;
 2. Make sure you have `docker` installed and deamon is running;
 

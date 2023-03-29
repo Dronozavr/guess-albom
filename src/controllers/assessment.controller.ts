@@ -24,6 +24,7 @@ class AssessmentController {
 
         if (assessment) {
           res.status(200).json({ isExist: true });
+          return;
         }
       }
       res.status(200).json({ isExist: false });
@@ -91,6 +92,14 @@ class AssessmentController {
       }
 
       res.setHeader('Set-Cookie', [cookie]);
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
+      res.setHeader('Authorization', 'hi-there');
       res.status(200).json({ isSuccess });
     } catch (error) {
       next(error);

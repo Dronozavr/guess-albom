@@ -65,7 +65,7 @@ class App {
     });
 
     // Static
-    this.app.get('/', function (req, res) {
+    this.app.get('*', function (_, res) {
       res.sendFile(path.join(__dirname, '../front-end/build', 'index.html'));
     });
   }

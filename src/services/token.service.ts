@@ -15,7 +15,7 @@ class TokenService {
   }
 
   public createAssessmentCookie(tokenData: TokenData): string {
-    return `X-Assessment=${tokenData.token}; SameSite=None; Secure=false; Max-Age=${tokenData.expiresIn};`;
+    return `X-Assessment=${tokenData.token}; Path=/; HttpOnly; SameSite=Secure; Max-Age=${tokenData.expiresIn};`;
   }
 
   public async verifyToken(token: string) {
